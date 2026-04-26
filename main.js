@@ -47,7 +47,7 @@ export function resizeCanvas() {
 }
 
 let count = 0;
-const maxCount = 5;
+const maxCount = 6;
 
 export function onImageLoad() {
     count++;
@@ -80,6 +80,9 @@ cloudSheet.src = "assets/Clouds V2.png"
 export const nightSheet = new Image();
 nightSheet.src = "assets/night_1.png";
 
+export const moonSheet = new Image();
+moonSheet.src = "assets/night_2.png";
+
 export const castleSheet = new Image();
 castleSheet.src = "assets/Castle Tileset.png";
 
@@ -92,6 +95,7 @@ guiSheet.src = "assets/SpriteSheet.png";
 
 daySheet.onload = onImageLoad;
 nightSheet.onload = onImageLoad;
+moonSheet.onload = onImageLoad;
 castleSheet.onload = onImageLoad;
 flagSheet.onload = onImageLoad;
 cloudSheet.onload = onImageLoad;

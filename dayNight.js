@@ -1,29 +1,15 @@
-import { cloudSheet, ctx, daySheet, height, nightSheet, randomInt, scale, tileSize, width } from "./main.js";
+import { cloudSheet, ctx, daySheet, height, moonSheet, nightSheet, randomInt, scale, tileSize, width } from "./main.js";
 import { cloudSprites } from "./sprites.js";
 
 let time = "day";
-
-// const dayClouds = [];
-// const nightClouds = [];
 
 export const clouds = [];
 
 let cloudTimer = 0;
 const spawnCloudTimer = 1.5;
 
-export let hour = 10;
-
-// export function initClouds() {
-//     dayClouds.push(dayCloud1Sheet);
-//     dayClouds.push(dayCloud2Sheet);
-//     dayClouds.push(dayCloud3Sheet);
-// };
-
-// export const cloudMap = [
-//     dayCloudSprites["cloud1"],
-//     dayCloudSprites["cloud2"],
-//     dayCloudSprites["cloud3"]
-// ]
+export let hour = 18;
+let moonBrightness = 0;
 
 export function initClouds() {
     for (let i = 0; i < 6; i++) {
@@ -33,14 +19,6 @@ export function initClouds() {
 
 export function randomCloudSpawner(startX) {
     let randomIndex;
-    // if (time === "day") {
-    //     randomIndex = randomInt(0, cloudSprites.length - 1);
-    // }
-    // else {
-    //     return;
-    // }
-
-    // let cloudSheet = time === "day" ? dayClouds[randomIndex] : nightClouds[randomIndex];
 
     randomIndex = randomInt(0, cloudSprites.length - 1);
 
@@ -54,14 +32,12 @@ export function randomCloudSpawner(startX) {
 
     clouds.push({
         time: time,
-        // cloudSheet: cloudSheet,
         sprite: sprite,
         sizeScale: sizeScale,
         speed: speed,
         x: x,
         y: y,
     });
-    // console.log(clouds);
 }
 
 export function drawSky() {
@@ -82,6 +58,17 @@ export function drawSky() {
         0, 0, imageWidth, imageHeight,
         0, 0, width, height
     );
+
+    // ctx.filter = `brightness(${moonBrightness})`;
+    ctx.globalAlpha = moonBrightness;
+    ctx.drawImage(
+        moonSheet,
+        133, 116, 25, 25,
+        width - 25 * scale - 10 * scale, 7 * scale, 25 * scale, 25 * scale
+    );
+    // ctx.filter = "none";
+    ctx.globalAlpha = 1;
+
 }
 
 export function updateCloud(delta) {
@@ -94,11 +81,6 @@ export function updateCloud(delta) {
     for (let i = 0; i < clouds.length; i++) {
         const cloud = clouds[i];
 
-        // if (time !== cloud.time) {
-        //     clouds.splice(i, 1);
-        //     i--;
-        //     continue;
-        // }
         cloud.x -= delta * cloud.speed * scale;
 
         if (cloud.x + 200 * scale < 0) {
@@ -116,10 +98,19 @@ export function updateTime(delta) {
     if (currentTimer >= maxTimer) {
         currentTimer = 0;
         hour += 1;
+        moonBrightness = 0.05
         if (hour > 24) hour = 0;
 
-        if (hour >= 6 && hour < 18) time = "day";
-        else time = "night";
+        if (hour >= 6 && hour < 18) {
+            time = "day";
+            moonBrightness = 0;
+        }
+        else {
+            time = "night";
+
+            const nightHour = hour >=18 ? hour - 18 : hour + 6;
+            moonBrightness = Math.sin((nightHour / 12) * Math.PI);
+        }
     }
 }
 
