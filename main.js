@@ -2,6 +2,9 @@ import { drawCastle } from "./castle.js";
 import { drawSky, initClouds } from "./dayNight.js";
 import { gameLoop } from "./game.js";
 
+const PixelFont = new FontFace("PixelFont","url(assets/04B_03__.TTF");
+PixelFont.load().then(f=>document.fonts.add(f));
+
 export const canvas = document.getElementById('game-canvas');
 export const ctx = canvas.getContext('2d');
 
@@ -83,12 +86,16 @@ castleSheet.src = "assets/Castle Tileset.png";
 export const flagSheet = new Image();
 flagSheet.src = "assets/flag sprite-Sheet.png";
 
+export const guiSheet = new Image();
+guiSheet.src = "assets/SpriteSheet.png";
+
 
 daySheet.onload = onImageLoad;
 nightSheet.onload = onImageLoad;
 castleSheet.onload = onImageLoad;
 flagSheet.onload = onImageLoad;
 cloudSheet.onload = onImageLoad;
+guiSheet.onload = onImageLoad;
 // dayCloud1Sheet.onload = onImageLoad;
 // dayCloud2Sheet.onload = onImageLoad;
 // dayCloud3Sheet.onload = onImageLoad;

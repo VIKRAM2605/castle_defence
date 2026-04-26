@@ -11,6 +11,8 @@ export const clouds = [];
 let cloudTimer = 0;
 const spawnCloudTimer = 1.5;
 
+export let hour = 10;
+
 // export function initClouds() {
 //     dayClouds.push(dayCloud1Sheet);
 //     dayClouds.push(dayCloud2Sheet);
@@ -31,14 +33,16 @@ export function initClouds() {
 
 export function randomCloudSpawner(startX) {
     let randomIndex;
-    if (time === "day") {
-        randomIndex = randomInt(0, cloudSprites.length - 1);
-    }
-    else {
-        return;
-    }
+    // if (time === "day") {
+    //     randomIndex = randomInt(0, cloudSprites.length - 1);
+    // }
+    // else {
+    //     return;
+    // }
 
     // let cloudSheet = time === "day" ? dayClouds[randomIndex] : nightClouds[randomIndex];
+
+    randomIndex = randomInt(0, cloudSprites.length - 1);
 
     let sprite = cloudSprites[randomIndex];
 
@@ -57,7 +61,7 @@ export function randomCloudSpawner(startX) {
         x: x,
         y: y,
     });
-    console.log(clouds);
+    // console.log(clouds);
 }
 
 export function drawSky() {
@@ -90,17 +94,32 @@ export function updateCloud(delta) {
     for (let i = 0; i < clouds.length; i++) {
         const cloud = clouds[i];
 
-        if (time !== cloud.time) {
-            clouds.splice(i, 1);
-            i--;
-            continue;
-        }
+        // if (time !== cloud.time) {
+        //     clouds.splice(i, 1);
+        //     i--;
+        //     continue;
+        // }
         cloud.x -= delta * cloud.speed * scale;
 
         if (cloud.x + 200 * scale < 0) {
             clouds.splice(i, 1);
             i--;
         }
+    }
+}
+
+let currentTimer = 0;
+const maxTimer = 2;
+
+export function updateTime(delta) {
+    currentTimer += delta;
+    if (currentTimer >= maxTimer) {
+        currentTimer = 0;
+        hour += 1;
+        if (hour > 24) hour = 0;
+
+        if (hour >= 6 && hour < 18) time = "day";
+        else time = "night";
     }
 }
 
@@ -112,11 +131,13 @@ export function drawClouds() {
         const cloudH = (cloud.sprite.h / cloud.sprite.w) * cloudW;
 
         ctx.globalAlpha = 0.85;
+        ctx.filter = time === "night" ? "brightness(0.2)" : "none";
         ctx.drawImage(
             cloudSheet,
             cloud.sprite.x, cloud.sprite.y, cloud.sprite.w, cloud.sprite.h,
             cloud.x, cloud.y, cloudW, cloudH
         );
+        ctx.filter = "none";
         ctx.globalAlpha = 1;
     }
 }

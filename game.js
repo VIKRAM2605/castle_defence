@@ -1,6 +1,7 @@
 import { drawCastle, drawFlag, updateFlag } from "./castle.js";
-import { drawClouds, drawSky, updateCloud } from "./dayNight.js";
+import { drawClouds, drawSky, updateCloud, updateTime } from "./dayNight.js";
 import { ctx, dpr } from "./main.js";
+import { drawUi } from "./ui.js";
 
 let lastTime = 0;
 
@@ -13,9 +14,11 @@ export function gameLoop(currentTime) {
     drawClouds();
     drawFlag();
     drawCastle();
+    drawUi();
 
     updateFlag(delta);
     updateCloud(delta);
+    updateTime(delta);
 
     requestAnimationFrame(gameLoop);
 }

@@ -31,3 +31,7 @@ export const cloudSprites = [
     { x: 16, y: 86, w: 41, h: 28 },
     { x: 72, y: 93, w: 31, h: 24 }
 ]
+
+export const gui = {
+    "bigButton": { x: 32, y: 224, w: 157, h: 65 },
+}
