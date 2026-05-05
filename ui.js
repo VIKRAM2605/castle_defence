@@ -1,9 +1,15 @@
+import { drawPercentage } from "./autoMoney.js";
+import { drawHealth } from "./castleHealth.js";
 import { hour } from "./dayNight.js";
 import { ctx, guiSheet, scale } from "./main.js";
+import { drawCoin } from "./money.js";
 import { gui } from "./sprites.js";
 
 export function drawUi() {
     drawHour();
+    drawCoin();
+    drawPercentage();
+    drawHealth();
 }
 
 export function drawHour() {

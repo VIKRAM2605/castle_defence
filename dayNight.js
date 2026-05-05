@@ -8,7 +8,7 @@ export const clouds = [];
 let cloudTimer = 0;
 const spawnCloudTimer = 1.5;
 
-export let hour = 18;
+export let hour = 8;
 let moonBrightness = 0;
 
 export function initClouds() {
